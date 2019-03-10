@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="swirl.js"></script>
+</head>
+<body>
+  <div id="swirl_container">
+
+  </div>
+  <div id="dashboard">
+    <div id="add_circle">+</div>
+  </div>
+</body>
+<style>
+  body, html {
+    height: 100%;
+  }
+  #swirl_container{
+    float: right;
+    width: 75%;
+    height: 100%;
+  }
+  #dashboard{
+    position: relative;
+    float: left;
+    padding-top: 35px;
+    width: 25%;
+    height: 100%;
+    background-color: #cff6fe;
+  }
+  #add_circle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    background-color: #99edff;
+    cursor: pointer;
+  }
+  .circle_info {
+    margin: 10px auto;
+    background-color: #ffffff;
+    width: 97%;
+    height: 75px;
+  }
+  .circle{
+    margin: 200px auto;
+    border-bottom: none;
+    border-radius: 50%;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
+</html>
