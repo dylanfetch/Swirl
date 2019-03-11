@@ -1,8 +1,5 @@
 window.onload = function(){
-  var add_circle_button = document.getElementById("add_circle");
   var swirl = new Swirl()
-  //var circle = new Circle(1,300,"#000000")
-  //add_circle_button.addEventListener("click", function(){swirl.createCircle(1,300,"#000000")});
 };
 
 class Circle {
@@ -11,20 +8,41 @@ class Circle {
   color;
   element;
   info_element;
-  constructor(id, diameter, color){
+  parent;
+
+  constructor(id, diameter, color, parent){
     this.id = id;
     this.diameter = diameter;
     this.color = color;
+    this.parent = parent;
+    this.element = this.createCircleElement(diameter, color);
+    this.info_element = this.createInfoElement(id, diameter, color);
+  }
 
-    this.element = document.createElement("div");
-    this.element.setAttribute("class", "circle");
-    this.element.setAttribute("style", "height:"+diameter+
-                                       "px; width:"+diameter+
-                                       "px; background-color:"+color+";");
+  createCircleElement(diameter, color){
+    var element = document.createElement("div");
+    element.setAttribute("class", "circle");
+    element.setAttribute("style", "height:"+diameter+
+                                  "px; width:"+diameter+
+                                  "px; background-color:"+color+";");
+    return element;
+  }
 
-    this.info_element = document.createElement("div");
-    this.info_element.setAttribute("class", "circle_info")
-    this.info_element.innerHTML = "Id: "+id+"</br>Diameter: "+diameter+"px</br>Color: "+color;
+  createInfoElement(id, diameter, color){
+    let $self = this;
+    var info_element = document.createElement("div");
+    info_element.setAttribute("class", "circle_info")
+    info_element.innerHTML = "Id: "+id+"</br>Diameter: "+diameter+"px</br>Color: "+color;
+    var x_button = document.createElement("div");
+    x_button.setAttribute("class", "x_button");
+    x_button.innerHTML = "X";
+    x_button.addEventListener("click",function(){$self.deleteSelf()});
+    info_element.appendChild(x_button);
+    return info_element;
+  }
+
+  deleteSelf(){
+    this.parent.deleteCircle(this.id);
   }
 }
 
@@ -33,7 +51,8 @@ class Swirl {
   add_circle_button;
   container;
   dashboard;
-  circle_array = [];
+  circle_array = {};
+
   constructor(){
     this.add_circle_button = document.getElementById("add_circle");
     this.container = document.getElementById("swirl_container");
@@ -42,9 +61,12 @@ class Swirl {
 
     this.add_circle_button.addEventListener("click", function(){$self.addCircle()})
   }
+
   addCircle(){
-    if(this.circle_array.length){
-      var last_circle = this.circle_array[this.circle_array.length-1]
+    var key_array = Object.keys(this.circle_array);
+    if(key_array.length){
+      var max_key = key_array[key_array.length-1]
+      var last_circle = this.circle_array[max_key]
       var color = last_circle.color;
       if(color == "#cff6fe"){
         color = "#FFF";
@@ -52,22 +74,39 @@ class Swirl {
       else{
         color = "#cff6fe";
       }
-      this.createCircle(this.circle_array.length+1,last_circle.diameter*0.9,color);
+      this.createCircle(parseInt(max_key)+1,last_circle.diameter*0.9,color, this);
     }
     else{
-      this.createCircle(1,500,"#cff6fe");
+      this.createCircle(1,500,"#cff6fe", this);
     }
   }
-  createCircle(id, diameter, color){
-    var circle = new Circle(id, diameter, color);
-    if(this.circle_array.length){
-      var last_circle = this.circle_array[this.circle_array.length-1];
+
+  createCircle(id, diameter, color, parent){
+    var circle = new Circle(id, diameter, color, parent);
+    let $self = this;
+    var key_array = Object.keys(this.circle_array);
+    if(key_array.length){
+      var max_key = key_array[key_array.length-1]
+      var last_circle = this.circle_array[max_key];
       last_circle.element.appendChild(circle.element);
     }
     else{
       this.container.appendChild(circle.element);
     }
     this.dashboard.appendChild(circle.info_element);
-    this.circle_array.push(circle);
+    this.circle_array[circle.id.toString()] = circle;
+  }
+
+  deleteCircle(id){
+    var string_id = id.toString()
+    var element = this.circle_array[string_id].element;
+    var info_element = this.circle_array[string_id].info_element;
+    var children = element.firstChild;
+    if(children){
+      element.parentNode.appendChild(children);
+    }
+    element.parentNode.removeChild(element);
+    info_element.parentNode.removeChild(info_element);
+    delete this.circle_array[string_id];
   }
 }
