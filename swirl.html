@@ -15,12 +15,12 @@
   body, html {
     height: 100%;
   }
-  #swirl_container{
+  #swirl_container {
     float: right;
     width: 75%;
     height: 100%;
   }
-  #dashboard{
+  #dashboard {
     position: relative;
     float: left;
     padding-top: 35px;
@@ -35,6 +35,7 @@
     padding: 4px 8px;
     background-color: #99edff;
     cursor: pointer;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   }
   .circle_info {
     position: relative;
@@ -43,15 +44,16 @@
     text-align: left;
     background-color: #ffffff;
     width: 72%;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
     /*height: 75px;*/
   }
-  .x_button{
+  .x_button {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
   }
-  .circle{
+  .circle {
     margin: 200px auto;
     border-bottom: none;
     border-radius: 50%;
@@ -64,24 +66,33 @@
     animation-duration: 4000ms;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-}
+  }
+  label {
+    display:inline;
+    clear: both;
+  }
+  input {
+    display: inline;
+    clear: both;
+    text-align: right;
+  }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@-webkit-keyframes spin {
-  from {
-    transform: rotate(0deg);
+  @-webkit-keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>
 </html>
