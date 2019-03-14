@@ -1,5 +1,5 @@
 window.onload = function(){
-  var swirl = new Swirl()
+  var swirl = new Swirl();
 };
 
 
@@ -15,17 +15,17 @@ class Swirl {
     this.dashboard = document.getElementById("dashboard");
     let $self = this;
 
-    this.add_circle_button.addEventListener("click", function(){$self.addCircle()})
+    this.add_circle_button.addEventListener("click", function(){$self.addCircle()});
   }
 
   addCircle(){
     var key_array = Object.keys(this.circle_array);
     if(key_array.length){
-      var max_key = key_array[key_array.length-1]
-      var last_circle = this.circle_array[max_key]
+      var max_key = key_array[key_array.length-1];
+      var last_circle = this.circle_array[max_key];
       var color = last_circle.color;
       if(color == "#cff6fe"){
-        color = "#FFF";
+        color = "#FFFFFF";
       }
       else{
         color = "#cff6fe";
@@ -43,7 +43,7 @@ class Swirl {
     var key_array = Object.keys(this.circle_array);
 
     if(key_array.length){
-      var max_key = key_array[key_array.length-1]
+      var max_key = key_array[key_array.length-1];
       var last_circle = this.circle_array[max_key];
       last_circle.element.appendChild(circle.element);
     }
@@ -55,7 +55,7 @@ class Swirl {
   }
 
   deleteCircle(id){
-    var string_id = id.toString()
+    var string_id = id.toString();
     var element = this.circle_array[string_id].element;
     var info_element = this.circle_array[string_id].info_element;
     var children = element.firstChild;
@@ -83,22 +83,22 @@ class Circle {
     this.diameter = diameter;
     this.color = color;
     this.parent = parent;
-    this.element = this.createCircleElement(diameter, color);
-    this.info_element = this.createInfoElement(id, diameter, color);
+    this.element = this.createCircleElement();
+    this.info_element = this.createInfoElement();
   }
 
-  createCircleElement(diameter, color){
+  createCircleElement(){
     var element = document.createElement("div");
-    element.setAttribute("class", "circle");
-    element.setAttribute("style", "height:"+diameter+
-                                  "px; width:"+diameter+
-                                  "px; background-color:"+color+";");
+    element.className = "circle";
+    element.style["height"] = this.diameterString;
+    element.style["width"] = this.diameterString;
+    element.style["background-color"] = this.color;
     return element;
   }
 
-  createInfoElement(id, diameter, color){
+  createInfoElement(){
     var info_element = document.createElement("div");
-    info_element.setAttribute("class", "circle_info");
+    info_element.className = "circle_info";
 
     var diameter_container = this.createDiameterContainer();
     var color_container = this.createColorContainer();
@@ -148,9 +148,9 @@ class Circle {
     let $self = this;
     var diameter_input = document.createElement("input");
 
-    diameter_input.setAttribute("name", "Diameter");
-    diameter_input.setAttribute("value", $self.diameter);
-    diameter_input.setAttribute("size", 16);
+    diameter_input.name = "Diameter";
+    diameter_input.value = $self.diameter;
+    diameter_input.size = 3;
     diameter_input.addEventListener("keyup",function(){$self.setDiameter()});
 
     return diameter_input;
@@ -169,11 +169,10 @@ class Circle {
     let $self = this;
     var color_input = document.createElement("input");
 
-    color_input.setAttribute("name", "Color");
-    color_input.setAttribute("value", $self.color);
-    color_input.setAttribute("type", "color");
-    color_input.setAttribute("size", 16);
-    color_input.addEventListener("keyup",function(){$self.setColor()});
+    color_input.name = "Color";
+    color_input.value = $self.color;
+    color_input.type = "color";
+    color_input.addEventListener("input",function(){$self.setColor()});
 
     return color_input;
   }
@@ -182,7 +181,7 @@ class Circle {
     let $self = this;
     var x_button = document.createElement("div");
 
-    x_button.setAttribute("class", "x_button");
+    x_button.className = "x_button";
     x_button.innerHTML = "X";
     x_button.addEventListener("click",function(){$self.deleteSelf()});
 
@@ -195,12 +194,16 @@ class Circle {
 
   setDiameter(){
     this.diameter = this.info_element.children[0].children[1].value;
-    this.element.style["height"] = this.diameter + "px";
-    this.element.style["width"] = this.diameter + "px";
+    this.element.style["height"] = this.diameterString;
+    this.element.style["width"] = this.diameterString;
   }
 
   setColor(){
     this.color = this.info_element.children[1].children[1].value;
     this.element.style["background-color"] = this.color;
+  }
+
+  get diameterString(){
+    return this.diameter + "px";
   }
 }
