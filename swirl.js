@@ -50,14 +50,14 @@ class Swirl {
     else{
       this.container.appendChild(circle.circle_element);
     }
-    this.dashboard.appendChild(circle.info_element);
+    this.dashboard.appendChild(circle.info_element.element);
     this.circle_array[circle.id.toString()] = circle;
   }
 
   deleteCircle(id){
     var string_id = id.toString();
     var circle_element = this.circle_array[string_id].circle_element;
-    var info_element = this.circle_array[string_id].info_element;
+    var info_element = this.circle_array[string_id].info_element.element;
     var children = circle_element.firstChild;
 
     if(children){
@@ -84,16 +84,49 @@ class Circle {
     this.color = color;
     this.parent = parent;
     this.circle_element = this.createCircleElement();
-    this.info_element = this.createInfoElement();
+    this.info_element = new InfoElement(this);
   }
 
   createCircleElement(){
     var circle_element = document.createElement("div");
+
     circle_element.className = "circle";
     circle_element.style["height"] = this.diameterString;
     circle_element.style["width"] = this.diameterString;
     circle_element.style["background-color"] = this.color;
+    
     return circle_element;
+  }
+
+  deleteSelf(){
+    this.parent.deleteCircle(this.id);
+  }
+
+  setDiameter(){
+    this.diameter = this.info_element.diameter_input.value;
+    this.circle_element.style["height"] = this.diameterString;
+    this.circle_element.style["width"] = this.diameterString;
+  }
+
+  setColor(){
+    this.color = this.info_element.color_input.value;
+    this.circle_element.style["background-color"] = this.color;
+  }
+
+  get diameterString(){
+    return this.diameter + "px";
+  }
+}
+
+class InfoElement {
+  element;
+  diameter_input;
+  color_input;
+  parent;
+
+  constructor(parent){
+    this.parent = parent;
+    this.element = this.createInfoElement();
   }
 
   createInfoElement(){
@@ -115,10 +148,10 @@ class Circle {
     var diameter_container = document.createElement("div");
 
     var diameter_label = this.createDiameterLabel();
-    var diameter_input = this.createDiameterInput();
+    this.diameter_input = this.createDiameterInput();
 
     diameter_container.appendChild(diameter_label);
-    diameter_container.appendChild(diameter_input);
+    diameter_container.appendChild(this.diameter_input);
 
     return diameter_container;
   }
@@ -127,10 +160,10 @@ class Circle {
     var color_container = document.createElement("div");
 
     var color_label = this.createColorLabel();
-    var color_input = this.createColorInput();
+    this.color_input = this.createColorInput();
 
     color_container.appendChild(color_label);
-    color_container.appendChild(color_input);
+    color_container.appendChild(this.color_input);
 
     return color_container;
   }
@@ -145,7 +178,7 @@ class Circle {
   }
 
   createDiameterInput(){
-    let $self = this;
+    let $self = this.parent;
     var diameter_input = document.createElement("input");
 
     diameter_input.name = "Diameter";
@@ -165,7 +198,7 @@ class Circle {
   }
 
   createColorInput(){
-    let $self = this;
+    let $self = this.parent;
     var color_input = document.createElement("input");
 
     color_input.name = "Color";
@@ -185,24 +218,5 @@ class Circle {
     x_button.addEventListener("click",function(){$self.deleteSelf()});
 
     return x_button;
-  }
-
-  deleteSelf(){
-    this.parent.deleteCircle(this.id);
-  }
-
-  setDiameter(){
-    this.diameter = this.info_element.children[0].children[1].value;
-    this.circle_element.style["height"] = this.diameterString;
-    this.circle_element.style["width"] = this.diameterString;
-  }
-
-  setColor(){
-    this.color = this.info_element.children[1].children[1].value;
-    this.circle_element.style["background-color"] = this.color;
-  }
-
-  get diameterString(){
-    return this.diameter + "px";
   }
 }
