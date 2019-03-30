@@ -19,11 +19,14 @@ class Swirl {
   }
 
   addCircle(){
+    //get the keys of the circle dictionary
     var key_array = Object.keys(this.circle_array);
+
     if(key_array.length){
       var max_key = key_array[key_array.length-1];
       var last_circle = this.circle_array[max_key];
       var color = last_circle.color;
+      //make the circles alternating colors, light and dark
       if(color == "#cff6fe"){
         color = "#FFFFFF";
       }
@@ -40,8 +43,10 @@ class Swirl {
   createCircle(id, diameter, color, parent){
     let $self = this;
     var circle = new Circle(id, diameter, color, parent);
+    //get the keys of the circle dictionary
     var key_array = Object.keys(this.circle_array);
-
+    //if there are circles in the dictionary, append the new circle to the last
+    //  circle in the dictionary, else append the new circle to the container
     if(key_array.length){
       var max_key = key_array[key_array.length-1];
       var last_circle = this.circle_array[max_key];
@@ -55,6 +60,7 @@ class Swirl {
       //circle.circle_element.className += " first-circle";
       this.container.appendChild(circle.circle_element);
     }
+    //append info element to dashboard
     this.dashboard.appendChild(circle.info_element.element);
     this.circle_array[circle.id.toString()] = circle;
   }
@@ -63,11 +69,15 @@ class Swirl {
     var string_id = id.toString();
     var circle_element = this.circle_array[string_id].circle_element;
     var info_element = this.circle_array[string_id].info_element.element;
+    //children are the remaining circles connected to the circle being deleted
     var children = circle_element.firstChild;
 
+    //if the circle has children, connect them to the circle's parent
     if(children){
       circle_element.parentNode.appendChild(children);
     }
+    //remove the circe and info element from the page, delete the circle from
+    //  the circle dictionary
     circle_element.parentNode.removeChild(circle_element);
     info_element.parentNode.removeChild(info_element);
     delete this.circle_array[string_id];
