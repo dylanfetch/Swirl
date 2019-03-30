@@ -48,6 +48,11 @@ class Swirl {
       last_circle.circle_element.appendChild(circle.circle_element);
     }
     else{
+      //If the circle is the first circle, append class first-circle
+      //  to give the first circle margins, but prevent overflow on mobile
+      //    Currently overflow:hidden on the swirl_container is working
+      //    for this issue
+      //circle.circle_element.className += " first-circle";
       this.container.appendChild(circle.circle_element);
     }
     this.dashboard.appendChild(circle.info_element.element);
@@ -68,7 +73,6 @@ class Swirl {
     delete this.circle_array[string_id];
   }
 }
-
 
 class Circle {
   id;
@@ -94,7 +98,7 @@ class Circle {
     circle_element.style["height"] = this.diameterString;
     circle_element.style["width"] = this.diameterString;
     circle_element.style["background-color"] = this.color;
-    
+
     return circle_element;
   }
 
@@ -215,7 +219,7 @@ class InfoElement {
 
     x_button.className = "x_button";
     x_button.innerHTML = "X";
-    x_button.addEventListener("click",function(){$self.deleteSelf()});
+    x_button.addEventListener("click",function(){$self.parent.deleteSelf()});
 
     return x_button;
   }

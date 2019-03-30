@@ -18,15 +18,17 @@
     margin: 0;
   }
   #swirl_container {
-    float: right;
-    width: 75%;
-    height: 100%;
+    /*float: right;*/
+    width: 100%;
+    /*margin: 100px auto;*/
+    /*height: 100%;*/
+    overflow: hidden;
   }
   #dashboard {
     position: relative;
-    float: left;
+    /*float: left;*/
     padding-top: 35px;
-    width: 25%;
+    width: 100%;
     height: 100%;
     background-color: #cff6fe;
     overflow-y: scroll;
@@ -62,8 +64,13 @@
     right: 10px;
     cursor: pointer;
   }
+  /*First Circle gets margins and the rest do not*/
+  /*Must Uncomment JS statement to add this class in Swirl.createCircle*/
+  .first-circle {
+    margin: 0 auto;
+  }
   .circle {
-    margin: 200px auto;
+    margin: 100px auto;
     border-bottom: none;
     border-radius: 50%;
     /*box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);*/
@@ -106,5 +113,45 @@
       transform: rotate(360deg);
     }
   }
+
+  @media (min-width: 400px){}
+  @media (min-width: 750px){}
+  @media (min-width: 1000px){
+    #swirl_container {
+      float: right;
+      width: 75%;
+      height: 100%;
+    }
+    #dashboard {
+      position: relative;
+      float: left;
+      padding-top: 35px;
+      width: 25%;
+      height: 100%;
+      background-color: #cff6fe;
+      overflow-y: scroll;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE 10+ */
+    }
+    #dashboard::-webkit-scrollbar { /* WebKit */
+      width: 0;
+      height: 0;
+    }
+    .circle {
+      margin: 200px auto;
+      border-bottom: none;
+      border-radius: 50%;
+      /*box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);*/
+      -webkit-animation-name: spin;
+      -webkit-animation-duration: 4000ms;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+      animation-name: spin;
+      animation-duration: 4000ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+  }
+  @media (min-width: 1400px){}
 </style>
 </html>
